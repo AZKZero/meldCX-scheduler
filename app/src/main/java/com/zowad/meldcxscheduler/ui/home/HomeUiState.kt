@@ -8,6 +8,6 @@ sealed interface HomeUiState {
     data object Start: HomeUiState
 
     data class Loaded(
-        val pendingSchedules: List<ScheduleItem>
+        val pendingSchedules: List<ScheduleItem>,
     ):HomeUiState
 }

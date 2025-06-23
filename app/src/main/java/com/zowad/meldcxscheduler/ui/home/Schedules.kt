@@ -18,12 +18,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.zowad.meldcxscheduler.db.ScheduleItem
-import com.zowad.meldcxscheduler.ui.components.AppInfo
+import com.zowad.meldcxscheduler.ui.components.AppIcon
 
 @Composable
 @Preview
@@ -45,6 +46,11 @@ fun Schedule(scheduleItem: ScheduleItem, onEditClicked: (ScheduleItem) -> Unit, 
     Card(
         modifier = Modifier.padding(vertical = 5.dp), colors = CardDefaults.elevatedCardColors(containerColor = Color(0xFFCBFFEE))
     ) {
+        val packageManager = LocalContext.current.packageManager
+        val (icon, name) = with(packageManager.getPackageInfo(scheduleItem.schedulePackageName, 0).applicationInfo) {
+            if (this == null) Pair(null, null)
+            else Pair(loadIcon(packageManager),  loadLabel(packageManager).toString())
+        }
         Column(
             Modifier
                 .padding(16.dp)
@@ -64,7 +70,7 @@ fun Schedule(scheduleItem: ScheduleItem, onEditClicked: (ScheduleItem) -> Unit, 
                 }
             }
             HorizontalDivider(thickness = 1.dp, color = Color.Gray)
-            AppInfo(name = scheduleItem.appName, iconDrawable = scheduleItem.appIcon)
+            AppIcon(iconDrawable = icon)
             Row {
                 Button(modifier = Modifier.weight(1f), onClick = { onEditClicked(scheduleItem) }) {
                     Text(text = "Edit")
@@ -79,17 +85,18 @@ fun Schedule(scheduleItem: ScheduleItem, onEditClicked: (ScheduleItem) -> Unit, 
 }
 
 @Composable
-fun Schedules(scheduleItems: List<ScheduleItem>, onAddNewClicked: () -> Unit, onEditClicked: (ScheduleItem) -> Unit, onDeleteClicked: (ScheduleItem) -> Unit) {
-    LazyColumn(contentPadding = PaddingValues(horizontal = 10.dp, vertical = 5.dp)) {
+fun Schedules(
+    modifier: Modifier = Modifier,
+    scheduleItems: List<ScheduleItem>,
+    onAddNewClicked: () -> Unit,
+    onEditClicked: (ScheduleItem) -> Unit,
+    onDeleteClicked: (ScheduleItem) -> Unit,
+) {
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 5.dp)) {
         items(scheduleItems) {
             Schedule(scheduleItem = it, onEditClicked = onEditClicked, onDeleteClicked = onDeleteClicked)
-        }
-        item(key = "NEW") {
-            Button(modifier = Modifier.fillMaxWidth(), onClick = {
-                onAddNewClicked()
-            }) {
-                Text(text = "Add Another Schedule")
-            }
         }
     }
 }

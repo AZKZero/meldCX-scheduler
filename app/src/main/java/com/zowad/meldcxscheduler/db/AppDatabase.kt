@@ -22,13 +22,7 @@ data class ScheduleItem(
     @ColumnInfo(name = "schedule_time_millis") var scheduleTimeMillis: Long,
     @ColumnInfo(name = "schedule_hour") var scheduleHour: Int,
     @ColumnInfo(name = "schedule_minute") var scheduleMinute: Int,
-) {
-    @Ignore
-    var appIcon: Drawable? = null
-
-    @Ignore
-    var appName: String? = null
-}
+)
 
 fun ScheduleItem.toScheduleLog(scheduleFireTimeMillis: Long) =
     ScheduleLog(
@@ -48,14 +42,7 @@ data class ScheduleLog(
     @ColumnInfo(name = "package_name") var schedulePackageName: String,
     @ColumnInfo(name = "schedule_time_millis") var scheduleTimeMillis: Long,
     @ColumnInfo(name = "schedule_fire_time_millis") var scheduleFireTimeMillis: Long
-) {
-
-    @Ignore
-    var appIcon: Drawable? = null
-
-    @Ignore
-    var appName: String? = null
-}
+)
 
 @Dao
 interface ScheduleDao {

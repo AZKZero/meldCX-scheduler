@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -40,8 +42,16 @@ android {
     }
 }
 
-dependencies {
+configurations {
+    create("cleanedAnnotations")
+    implementation {
+        exclude(group = "org.jetbrains", module = "annotations")
+    }
+}
 
+
+dependencies {
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -54,10 +64,13 @@ dependencies {
     implementation(libs.androidx.room.compiler)
     implementation(libs.androidx.room.common.jvm)
     implementation(libs.androidx.room.runtime.android)
+    ksp(libs.androidx.room.compiler)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
+    implementation (libs.accompanist.permissions)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
