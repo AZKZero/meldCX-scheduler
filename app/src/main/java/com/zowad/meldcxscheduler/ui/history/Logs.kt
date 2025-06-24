@@ -49,7 +49,7 @@ fun LogItem(modifier: Modifier, scheduleLog: ScheduleLog) {
             AppIcon(icon)
             Spacer(Modifier.width(12.dp))
             Text(modifier = Modifier.weight(1f), text = name.orEmpty())
-            Column {
+            Column(horizontalAlignment = Alignment.End) {
                 Text(
                     textAlign = TextAlign.End,
                     text = "Scheduled $targetDate"
