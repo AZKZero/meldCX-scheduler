@@ -1,5 +1,6 @@
 package com.zowad.meldcxscheduler.ui.components
 
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
@@ -29,6 +30,6 @@ fun ThrottledButton(
         },
         modifier = modifier
     ) {
-        content
+        content()
     }
 }

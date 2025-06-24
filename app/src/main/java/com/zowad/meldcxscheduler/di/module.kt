@@ -3,6 +3,7 @@ package com.zowad.meldcxscheduler.di
 import androidx.room.Room
 import com.zowad.meldcxscheduler.db.AppDatabase
 import com.zowad.meldcxscheduler.db.ScheduleDao
+import com.zowad.meldcxscheduler.launcher.LauncherViewModel
 import com.zowad.meldcxscheduler.source.ScheduleRepository
 import com.zowad.meldcxscheduler.source.ScheduleRepositoryImpl
 import com.zowad.meldcxscheduler.ui.history.HistoryViewModel
@@ -31,4 +32,5 @@ val appModule = module {
 
     viewModelOf(::HomeViewModel)
     viewModelOf(::HistoryViewModel)
+    viewModelOf(::LauncherViewModel)
 }

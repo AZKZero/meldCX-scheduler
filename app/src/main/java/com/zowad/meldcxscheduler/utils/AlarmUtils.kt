@@ -19,6 +19,8 @@ import androidx.core.net.toUri
 fun Context.setAlarm(timestamp: Long, scheduleId: Int) {
     Log.i("setAlarm", "setAlarm: $timestamp ${System.currentTimeMillis() - timestamp}")
     val alarmManager = this.getSystemService(AlarmManager::class.java)
+    val pendingIntentFlags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+
     alarmManager.setExactAndAllowWhileIdle(
         AlarmManager.RTC_WAKEUP,
         timestamp,
@@ -29,7 +31,7 @@ fun Context.setAlarm(timestamp: Long, scheduleId: Int) {
             Intent(this, AlarmReceiver::class.java).setAction(ACTION_RECEIVE_ALARM_BROADCAST).putExtra(
                 KEY_SCHEDULE_ID, scheduleId
             ),
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            pendingIntentFlags
         )
     )
 }

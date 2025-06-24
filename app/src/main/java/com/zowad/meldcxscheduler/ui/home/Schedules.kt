@@ -14,6 +14,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -44,7 +45,7 @@ fun SchedulePreview() {
 @Composable
 fun Schedule(scheduleItem: ScheduleItem, onEditClicked: (ScheduleItem) -> Unit, onDeleteClicked: (ScheduleItem) -> Unit) {
     Card(
-        modifier = Modifier.padding(vertical = 5.dp), colors = CardDefaults.elevatedCardColors(containerColor = Color(0xFFCBFFEE))
+        modifier = Modifier.padding(vertical = 5.dp), colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
     ) {
         val packageManager = LocalContext.current.packageManager
         val (icon, name) = with(packageManager.getPackageInfo(scheduleItem.schedulePackageName, 0).applicationInfo) {
@@ -66,7 +67,6 @@ fun Schedule(scheduleItem: ScheduleItem, onEditClicked: (ScheduleItem) -> Unit, 
                             scheduleItem.scheduleMinute
                         ), fontSize = TextUnit(16f, TextUnitType.Sp)
                     )
-//                    Text(text = scheduleItem.lastFireDateTimeString)
                 }
             }
             HorizontalDivider(thickness = 1.dp, color = Color.Gray)
@@ -88,7 +88,6 @@ fun Schedule(scheduleItem: ScheduleItem, onEditClicked: (ScheduleItem) -> Unit, 
 fun Schedules(
     modifier: Modifier = Modifier,
     scheduleItems: List<ScheduleItem>,
-    onAddNewClicked: () -> Unit,
     onEditClicked: (ScheduleItem) -> Unit,
     onDeleteClicked: (ScheduleItem) -> Unit,
 ) {

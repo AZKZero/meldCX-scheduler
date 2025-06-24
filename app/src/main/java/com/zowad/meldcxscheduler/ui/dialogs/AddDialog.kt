@@ -70,10 +70,6 @@ fun AddDialog(app: ApplicationData, onConfirmed: (ScheduleItem) -> Unit, onClose
                             scheduleHour = timePickerState.hour,
                             scheduleMinute = timePickerState.minute
                         )
-                        Log.i(
-                            "AddDialog",
-                            "AddDialog: $scheduleItem ${timePickerState.hour} ${timePickerState.minute}"
-                        )
                         onConfirmed(scheduleItem)
                     }) {
                         Text(text = "Confirm")

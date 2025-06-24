@@ -11,6 +11,6 @@ import kotlinx.serialization.Transient
 @Serializable
 data class ApplicationData(
     @IgnoredOnParcel @Transient var icon: Drawable? = null,
-    var name: String,
+    val name: String,
     val packageName: String,
 ) : Parcelable

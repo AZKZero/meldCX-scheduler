@@ -17,8 +17,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Composable
-fun AppListScreen(onAppSelect: (ApplicationData) -> Unit) {
-    Column(modifier = Modifier.fillMaxSize()) {
+fun AppListScreen(modifier: Modifier = Modifier, onAppSelect: (ApplicationData) -> Unit) {
+    Column(modifier = modifier.fillMaxSize()) {
         var appList by remember {
             mutableStateOf(emptyList<ApplicationData>())
         }

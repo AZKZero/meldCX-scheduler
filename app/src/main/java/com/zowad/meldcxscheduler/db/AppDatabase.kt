@@ -1,6 +1,7 @@
 package com.zowad.meldcxscheduler.db
 
 import android.graphics.drawable.Drawable
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Database
@@ -13,8 +14,12 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.RoomDatabase
 import kotlinx.coroutines.flow.Flow
+import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Entity(tableName = "schedules")
+@Serializable
+@Parcelize
 data class ScheduleItem(
     @PrimaryKey(autoGenerate = true) var id: Int,
     @ColumnInfo(name = "name") var scheduleName: String,
@@ -22,7 +27,7 @@ data class ScheduleItem(
     @ColumnInfo(name = "schedule_time_millis") var scheduleTimeMillis: Long,
     @ColumnInfo(name = "schedule_hour") var scheduleHour: Int,
     @ColumnInfo(name = "schedule_minute") var scheduleMinute: Int,
-)
+): Parcelable
 
 fun ScheduleItem.toScheduleLog(scheduleFireTimeMillis: Long) =
     ScheduleLog(
@@ -52,7 +57,7 @@ interface ScheduleDao {
     @Query("SELECT * FROM schedules")
     suspend fun getAllSync(): List<ScheduleItem>
 
-    @Query("SELECT * FROM schedule_logs")
+    @Query("SELECT * FROM schedule_logs ORDER BY schedule_fire_time_millis DESC")
     fun getLogs(): Flow<List<ScheduleLog>>
 
     @Query("SELECT * FROM schedules WHERE id=:id")
@@ -72,7 +77,6 @@ interface ScheduleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveScheduleLog(schedule: ScheduleLog): Long
 
-//    @Query("UPDATE schedules SET last_fire_date_time_string=:dateString WHERE id=:id")/*suspend*/ fun updateLastFireDate(id: Int, dateString: String)
 
     @Delete/*suspend*/ fun deleteSchedule(schedule: ScheduleItem)
 }

@@ -55,18 +55,13 @@ fun EditDialog(
                     else Pair(loadIcon(packageManager), loadLabel(packageManager).toString())
                 }
                 Column {
-                    var name by remember {
-                        mutableStateOf(scheduleItem.scheduleName)
-                    }
                     val timePickerState = rememberTimePickerState(
                         initialHour = scheduleItem.scheduleHour,
                         initialMinute = scheduleItem.scheduleMinute,
                         is24Hour = false
                     )
 
-                    OutlinedTextField(value = "", onValueChange = {
-                        name = it
-                    })
+                    Text(scheduleItem.scheduleName)
                     HorizontalDivider(thickness = 1.dp, color = Color.Gray)
                     TimePicker(state = timePickerState, layoutType = TimePickerLayoutType.Vertical)
                     HorizontalDivider(thickness = 1.dp, color = Color.Gray)
@@ -76,10 +71,7 @@ fun EditDialog(
                             set(Calendar.MINUTE, timePickerState.minute)
                         }.timeInMillis
 
-                        val editedScheduleItem = ScheduleItem(
-                            id = 0,
-                            scheduleName = name,
-                            schedulePackageName = scheduleItem.schedulePackageName,
+                        val editedScheduleItem = scheduleItem.copy(
                             scheduleTimeMillis = timestamp,
                             scheduleHour = timePickerState.hour,
                             scheduleMinute = timePickerState.minute
